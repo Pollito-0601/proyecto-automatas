@@ -1,0 +1,20 @@
+---
+const { title = 'Chomsky Lab — Explora los lenguajes' } = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10151b" />
+    <meta name="description" content="Simulador interactivo de los cuatro niveles de la jerarquía de Chomsky." />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+<style is:global>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+  :root{font-family:'DM Sans',sans-serif;color:#edf0ed;background:#10151b;font-synthesis:none;text-rendering:optimizeLegibility;--bg:#10151b;--panel:#171e25;--panel2:#1c252d;--line:#2a343d;--muted:#96a29f;--mint:#a9efce;--yellow:#e4f46b;--lav:#c5b8ff;--pink:#ffaca5;--mono:'DM Mono',monospace;--display:'Space Grotesk',sans-serif}*{box-sizing:border-box}body{margin:0;min-width:320px}button,input{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}::selection{background:#a9efce;color:#10151b}button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
+</style>
