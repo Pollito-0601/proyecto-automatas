@@ -90,16 +90,15 @@ public class SimulationService {
 
         // Cada pasada marca un a, un b y un c; el cabezal solo recorre la cinta delimitada.
         for (int round = 0; round < aCount; round++) {
-            head = seek(tape, "a", 1);
+            head = seekForward(tape, "a", 1, steps);
             if (head < 0) break;
             state = "qₐ"; tape.set(head, "X"); record(steps, state, tape, head, "Marca un a como X.");
-            head = seek(tape, "b", head + 1);
-            if (head < 0) return rejectBounded(input, steps, tape, 1, "Falta un b para emparejar el a marcado.");
+            head = seekForward(tape, "b", head + 1, steps);
+            if (head < 0) return rejectBounded(input, steps, tape, tape.size() - 1, "Falta un b para emparejar el a marcado.");
             state = "qᵦ"; tape.set(head, "Y"); record(steps, state, tape, head, "Marca un b como Y.");
-            head = seek(tape, "c", head + 1);
-            if (head < 0) return rejectBounded(input, steps, tape, 1, "Falta un c para emparejar el a y b marcados.");
+            head = seekForward(tape, "c", head + 1, steps);
+            if (head < 0) return rejectBounded(input, steps, tape, tape.size() - 1, "Falta un c para emparejar el a y b marcados.");
             state = "q𝚌"; tape.set(head, "Z"); record(steps, state, tape, head, "Marca un c como Z.");
-            head = tape.size() - 2;
             while (head > 1) { head--; state = "q←"; record(steps, state, tape, head, "Regresa hacia el inicio de la cinta."); }
         }
         boolean noUnmarked = tape.stream().noneMatch(cell -> cell.equals("a") || cell.equals("b") || cell.equals("c"));
@@ -113,8 +112,11 @@ public class SimulationService {
         return response(1, "Máquina linealmente acotada", input, false, "Cadena rechazada", reason + " La cinta conserva sus delimitadores.", steps);
     }
 
-    private int seek(List<String> tape, String symbol, int from) {
-        for (int i = from; i < tape.size() - 1; i++) if (tape.get(i).equals(symbol)) return i;
+    private int seekForward(List<String> tape, String symbol, int from, List<SimulationStep> steps) {
+        for (int i = from; i < tape.size(); i++) {
+            record(steps, "q→", tape, i, "Avanza por la cinta buscando «" + symbol + "».");
+            if (i < tape.size() - 1 && tape.get(i).equals(symbol)) return i;
+        }
         return -1;
     }
 

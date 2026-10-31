@@ -21,7 +21,12 @@ class SimulationServiceTest {
     }
 
     @Test void boundedMachineMatchesThreeBlocks() {
-        assertTrue(service.simulate(1, "aabbcc").accepted());
+        var accepted = service.simulate(1, "aabbcc");
+        assertTrue(accepted.accepted());
+        for (int i = 1; i < accepted.steps().size(); i++) {
+            int movement = accepted.steps().get(i).headPosition() - accepted.steps().get(i - 1).headPosition();
+            assertTrue(Math.abs(movement) <= 1, "El cabezal debe moverse una celda por paso");
+        }
         assertTrue(service.simulate(1, "").accepted());
         assertFalse(service.simulate(1, "aabcc").accepted());
         assertFalse(service.simulate(1, "abcx").accepted());
