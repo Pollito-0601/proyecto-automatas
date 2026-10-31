@@ -1,0 +1,14 @@
+# Java / Maven
+backend/target/
+*.class
+
+# Node / Astro
+frontend/node_modules/
+frontend/dist/
+frontend/.astro/
+
+# IDE and OS files
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store
