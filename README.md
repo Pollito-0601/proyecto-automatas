@@ -18,7 +18,7 @@ Documentación inicial - actual
 
 ## Lenguajes en los que se desarrollará el proyecto
 
-- Java 21
+- Java 25
 - HTML
 - CSS
 - JavaScript
@@ -65,3 +65,12 @@ Es el mismo lenguaje que en el nivel 2, con un agregado, luego de las 'b' deben 
 $$L = \{a^n b^m c^{n \times m} \mid n, m \ge 1 \}$$
 
 Lo que significa que el lenguaje aceptará cualquier cadena que comience con una cantidad n de 'a', seguida de una cantidad m de 'b' (donde ambos valores son al menos 1), y que finalice con una cantidad de 'c' exactamente igual al producto (multiplicación) de la cantidad de 'a' por la cantidad de 'b'.
+
+## Modelo computacional por nivel
+
+| **Nivel** | **Gramática** | **Modelo** | **Lenguaje de ejemplo** |
+| --- | --- | --- | --- |
+| 3 | Regular | Autómata Finito | $a^n b^m$ |
+| 2 | Libre de contexto | Autómata de pila | $a^n b^n$ |
+| 1 | Sensible al contexto | Autómata linealmente acotado | $a^n b^n c^n$ |
+| 0 | Recursivamente enumerable | Máquina de Turing | $a^n b^m c^{nxm}$ |
