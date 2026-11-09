@@ -65,7 +65,7 @@ public class Nivel3AutomataService {
                 case Q2 -> {
                     if (simbolo == 'b') {
                         siguienteEstado = Q2;
-                        descripcion = String.format("Paso %d: Se lee '%c'. Se mantiene en el estado q2, esperando una 'c'", i + 1, simbolo);
+                        descripcion = String.format("Paso %d: Se lee '%c'. Se mantiene en el estado q2, acomulando 'b's", i + 1, simbolo);
                     } else {
                         siguienteEstado = GC;
                         descripcion = String.format("Paso %d: Se lee '%c'. Como la cadena debe terminar con solo 'b', se pasa al estado de garbageCollector", i + 1, simbolo);

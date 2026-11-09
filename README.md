@@ -30,7 +30,11 @@ Documentación inicial - actual
 
 ## Pasos de ejecución del programa
 
-Por el momento no existe programa que ejecutar.
+Para ejecutar las pruebas unitarias, en una terminal, dentro de la carpeta [backend/](backend/) ejecutar:
+
+``` powershell
+mvn test
+```
 
 ## Ejemplos de cadenas de prueba utilizados para cada nivel
 
