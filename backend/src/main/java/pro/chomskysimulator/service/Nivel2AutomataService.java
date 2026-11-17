@@ -2,7 +2,6 @@ package pro.chomskysimulator.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
 import java.util.Stack;
 
 import pro.chomskysimulator.dto.SimulationResult;
@@ -39,29 +38,29 @@ public class Nivel2AutomataService {
                     if (simbolo == 'a') {
                         siguienteEstado = Q1;
                         pila.push('A');
-                        descripcion = String.format("Paso %d: Se lee '%c'. Primera 'a' encontrada, se apila 'A' y se pasa al estado q1", i + 1, simbolo);
+                        descripcion = String.format("Paso %d: ( %c | ε, ↓, A ) - Primera 'a' leída, apila 'A' y transiciona a q1", i + 1, simbolo);
                     } else {
                         siguienteEstado = GC;
-                        descripcion = String.format("Paso %d: Se lee '%c'. Como la cadena debe empezar por 'a', se pasa al estado de garbageCollector", i + 1, simbolo);
+                        descripcion = String.format("Paso %d: ( %c | ε, -, - ) - Como la cadena debe iniciar con 'a', pasa a garbageCollector", i + 1, simbolo);
                     }
                 }
                 case Q1 -> {
                     if (simbolo == 'a') {
                         siguienteEstado = Q1;
                         pila.push('A');
-                        descripcion = String.format("Paso %d: Se lee '%c'. Al leerse una 'a', se apila 'A' y se mantiene en el estado q1", i + 1, simbolo);
+                        descripcion = String.format("Paso %d: ( %c | A, ↓, A ) - Lee 'a', apila 'A' en la cima y permanece en q1", i + 1, simbolo);
                     } else if (simbolo == 'b') {
                         if (!pila.isEmpty()) {
                             pila.pop();
                             siguienteEstado = Q2;
-                            descripcion = String.format("Paso %d: Se lee '%c'. Primera 'b' encontrada, se desapila 'A' y se pasa al estado q2", i + 1, simbolo);
+                            descripcion = String.format("Paso %d: ( %c | A, ↑, A ) - Primera 'b' leída, desapila 'A' y transiciona a q2", i + 1, simbolo);
                         } else {
                             siguienteEstado = GC;
-                            descripcion = String.format("Paso %d: Se lee '%c'. Se intentó desapilar con la pila vacía, se pasa al estado de garbageCollector", i + 1, simbolo);
+                            descripcion = String.format("Paso %d: ( %c | ε, -, - ) - Error: Pila vacía sin 'A' para desapilar, pasa a garbageCollector", i + 1, simbolo);
                         }
                     } else {
                         siguienteEstado = GC;
-                        descripcion = String.format("Paso %d: Se lee '%c'. Símbolo inválido para el lenguaje, se pasa al estado de garbageCollector", i + 1, simbolo);
+                        descripcion = String.format("Paso %d: ( %c | -, -, - ) - Símbolo inválido, pasa a garbageCollector", i + 1, simbolo);
                     }
                 }
                 case Q2 -> {
@@ -69,19 +68,19 @@ public class Nivel2AutomataService {
                         if (!pila.isEmpty()) {
                             pila.pop();
                             siguienteEstado = Q2;
-                            descripcion = String.format("Paso %d: Se lee '%c'. Se lee una 'b', se desapila 'A' y se mantiene en el estado q2", i + 1, simbolo);
+                            descripcion = String.format("Paso %d: ( %c | A, ↑, A ) - Lee 'b', desapila 'A' y permanece en q2", i + 1, simbolo);
                         } else {
                             siguienteEstado = GC;
-                            descripcion = String.format("Paso %d: Se lee '%c'. Se recibió una 'b' adicional pero la pila ya está vacía (más 'b's que 'a's), se pasa a garbageCollector", i + 1, simbolo);
+                            descripcion = String.format("Paso %d: ( %c | ε, -, - ) - Recibe 'b' pero la pila ya está vacía (más 'b's que 'a's), pasa a garbageCollector", i + 1, simbolo);
                         }
                     } else {
                         siguienteEstado = GC;
-                        descripcion = String.format("Paso %d: Se lee '%c'. No se permiten símbolos adicionales tras las 'b', se pasa a garbageCollector", i + 1, simbolo);
+                        descripcion = String.format("Paso %d: ( %c | -, -, - ) - No se permiten símbolos tras las 'b', pasa a garbageCollector", i + 1, simbolo);
                     }
                 }
                 default -> {
                     siguienteEstado = GC;
-                    descripcion = String.format("Paso %d: Se lee '%c'. El autómata está en estado de garbageCollector, por lo que se mantiene en este estado", i + 1, simbolo);
+                    descripcion = String.format("Paso %d: ( %c | -, -, - ) - El autómata permanece en garbageCollector", i + 1, simbolo);
                 }
             }
 

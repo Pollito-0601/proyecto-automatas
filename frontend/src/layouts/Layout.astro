@@ -20,7 +20,103 @@ const { title, subtitle, currentRoute } = Astro.props;
 		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 	</head>
 	<body>
+		<!-- Drawer Lateral de Navegación -->
+		<div id="drawerOverlay" class="drawer-backdrop hidden"></div>
+		<aside id="drawerMenu" class="drawer-menu hidden">
+			<div class="drawer-header">
+				<div class="drawer-title-box">
+					<span class="drawer-badge">NAVEGACIÓN</span>
+					<h2 class="drawer-heading">Jerarquía de Chomsky</h2>
+				</div>
+				<button id="btnCloseDrawer" class="drawer-close-btn" title="Cerrar menú">✕</button>
+			</div>
+
+			<nav class="drawer-nav">
+				<a href="/" class="drawer-link">
+					<span class="drawer-link-badge badge-home">Inicio</span>
+					<div class="drawer-link-info">
+						<div class="drawer-link-title">Panel Principal</div>
+						<div class="drawer-link-desc">Vista general con los 4 niveles</div>
+					</div>
+				</a>
+
+				<a href="/tipo3-afd" class="drawer-link">
+					<span class="drawer-link-badge badge-3">Tipo 3</span>
+					<div class="drawer-link-info">
+						<div class="drawer-link-title">Autómata Finito (AFD)</div>
+						<div class="drawer-link-desc">Lenguajes regulares: a^n b^m</div>
+					</div>
+				</a>
+
+				<a href="/tipo2-pda" class="drawer-link">
+					<span class="drawer-link-badge badge-2">Tipo 2</span>
+					<div class="drawer-link-info">
+						<div class="drawer-link-title">Autómata de Pila (PDA)</div>
+						<div class="drawer-link-desc">Libres de contexto: a^n b^n</div>
+					</div>
+				</a>
+
+				<a href="/tipo1-lba" class="drawer-link">
+					<span class="drawer-link-badge badge-1">Tipo 1</span>
+					<div class="drawer-link-info">
+						<div class="drawer-link-title">Autómata Linealmente Acotado (LBA)</div>
+						<div class="drawer-link-desc">Sensibles al contexto: a^n b^n c^n</div>
+					</div>
+				</a>
+
+				<a href="/tipo0-mt" class="drawer-link">
+					<span class="drawer-link-badge badge-0">Tipo 0</span>
+					<div class="drawer-link-info">
+						<div class="drawer-link-title">Máquina de Turing (MT)</div>
+						<div class="drawer-link-desc">Recursivamente enumerable: a^n b^m c^n*m</div>
+					</div>
+				</a>
+			</nav>
+
+			<div class="drawer-footer">
+				<span class="drawer-footer-text">Teoría de Autómatas • 2026</span>
+			</div>
+		</aside>
+
 		<slot />
+
+		<script>
+			// Control global del menú lateral de navegación
+			document.addEventListener('DOMContentLoaded', () => {
+				const menuIcon = document.querySelector('.menu-icon');
+				const drawer = document.getElementById('drawerMenu');
+				const overlay = document.getElementById('drawerOverlay');
+				const closeBtn = document.getElementById('btnCloseDrawer');
+
+				function openDrawer() {
+					if (!drawer || !overlay) return;
+					drawer.classList.remove('hidden');
+					overlay.classList.remove('hidden');
+					requestAnimationFrame(() => {
+						drawer.classList.add('open');
+						overlay.classList.add('open');
+					});
+				}
+
+				function closeDrawer() {
+					if (!drawer || !overlay) return;
+					drawer.classList.remove('open');
+					overlay.classList.remove('open');
+					setTimeout(() => {
+						drawer.classList.add('hidden');
+						overlay.classList.add('hidden');
+					}, 240);
+				}
+
+				menuIcon?.addEventListener('click', openDrawer);
+				closeBtn?.addEventListener('click', closeDrawer);
+				overlay?.addEventListener('click', closeDrawer);
+
+				document.addEventListener('keydown', (e) => {
+					if (e.key === 'Escape') closeDrawer();
+				});
+			});
+		</script>
 	</body>
 </html>
 
@@ -78,20 +174,6 @@ const { title, subtitle, currentRoute } = Astro.props;
 		background: #3b82f6;
 	}
 
-	/* Animaciones y utilidades de brillo */
-	@keyframes pulseGlow {
-		0%, 100% {
-			filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.65));
-		}
-		50% {
-			filter: drop-shadow(0 0 24px rgba(56, 189, 248, 0.95));
-		}
-	}
-
-	.glow-cyan {
-		animation: pulseGlow 2.2s infinite ease-in-out;
-	}
-
 	.btn {
 		display: inline-flex;
 		align-items: center;
@@ -131,8 +213,155 @@ const { title, subtitle, currentRoute } = Astro.props;
 		color: #ffffff;
 	}
 
-	.btn-secondary:disabled {
-		opacity: 0.4;
-		cursor: not-allowed;
+	/* Drawer lateral */
+	.drawer-backdrop {
+		position: fixed;
+		inset: 0;
+		background: rgba(2, 6, 23, 0.72);
+		backdrop-filter: blur(4px);
+		z-index: 998;
+		opacity: 0;
+		transition: opacity 0.24s ease;
+	}
+	.drawer-backdrop.open {
+		opacity: 1;
+	}
+	.drawer-backdrop.hidden {
+		display: none;
+	}
+
+	.drawer-menu {
+		position: fixed;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 320px;
+		max-width: 85vw;
+		background: #111827;
+		border-right: 1.5px solid #1f293d;
+		z-index: 999;
+		display: flex;
+		flex-direction: column;
+		transform: translateX(-100%);
+		transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+		box-shadow: 10px 0 35px rgba(0, 0, 0, 0.6);
+	}
+	.drawer-menu.open {
+		transform: translateX(0);
+	}
+	.drawer-menu.hidden {
+		display: none;
+	}
+
+	.drawer-header {
+		padding: 20px 20px 16px;
+		border-bottom: 1px solid #1f293d;
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+	}
+
+	.drawer-badge {
+		font-size: 0.68rem;
+		font-weight: 700;
+		color: #38bdf8;
+		background: rgba(56, 189, 248, 0.12);
+		padding: 2px 8px;
+		border-radius: 4px;
+		letter-spacing: 0.05em;
+	}
+
+	.drawer-heading {
+		font-size: 1.15rem;
+		font-weight: 800;
+		color: #ffffff;
+		margin-top: 6px;
+	}
+
+	.drawer-close-btn {
+		background: #1e293b;
+		border: 1px solid #334155;
+		color: #94a3b8;
+		font-size: 1rem;
+		width: 32px;
+		height: 32px;
+		border-radius: 6px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.15s;
+	}
+	.drawer-close-btn:hover {
+		color: #ffffff;
+		background: #ef4444;
+		border-color: #ef4444;
+	}
+
+	.drawer-nav {
+		padding: 14px 12px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		flex: 1;
+		overflow-y: auto;
+	}
+
+	.drawer-link {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		padding: 10px 14px;
+		border-radius: 10px;
+		background: #151c2e;
+		border: 1px solid #273452;
+		text-decoration: none;
+		transition: all 0.2s ease;
+	}
+	.drawer-link:hover {
+		background: #1e293b;
+		border-color: #38bdf8;
+		transform: translateX(4px);
+	}
+
+	.drawer-link-badge {
+		font-size: 0.72rem;
+		font-weight: 800;
+		padding: 4px 8px;
+		border-radius: 6px;
+		white-space: nowrap;
+	}
+	.badge-home { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; }
+	.badge-3 { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+	.badge-2 { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+	.badge-1 { background: rgba(234, 179, 8, 0.15); color: #facc15; }
+	.badge-0 { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+	.drawer-link-info {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.drawer-link-title {
+		font-size: 0.88rem;
+		font-weight: 700;
+		color: #f8fafc;
+	}
+
+	.drawer-link-desc {
+		font-size: 0.72rem;
+		color: #94a3b8;
+	}
+
+	.drawer-footer {
+		padding: 14px 20px;
+		border-top: 1px solid #1f293d;
+		text-align: center;
+	}
+
+	.drawer-footer-text {
+		font-size: 0.72rem;
+		color: #64748b;
 	}
 </style>

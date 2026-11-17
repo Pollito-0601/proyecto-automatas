@@ -7,7 +7,7 @@ import Layout from '../layouts/Layout.astro';
 		<!-- Barra superior -->
 		<header class="simulator-header">
 			<div class="header-left">
-				<span class="menu-icon">≡</span>
+				<span class="menu-icon" title="Abrir menú de navegación">≡</span>
 				<h1>Simulador Chomsky - Tipo 2: Autómata de Pila</h1>
 			</div>
 			<div class="header-right">
@@ -65,51 +65,67 @@ import Layout from '../layouts/Layout.astro';
 				</div>
 			</section>
 
-			<!-- Columna 2: Gráfico del Autómata (PDA) -->
+			<!-- Columna 2: Gráfico del Autómata (PDA Determinista) -->
 			<section class="card-panel panel-automaton">
-				<h2 class="panel-title">PDA</h2>
+				<h2 class="panel-title">PDA (Autómata de Pila Determinista)</h2>
 				<div class="svg-canvas-container">
-					<svg id="automatonSvg" viewBox="0 0 540 260" class="automaton-svg">
+					<svg id="automatonSvg" viewBox="0 0 540 300" class="automaton-svg">
 						<defs>
-							<marker id="arrow" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+							<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
 								<path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748b" />
 							</marker>
-							<marker id="arrow-active" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+							<marker id="arrow-active" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
 								<path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8" />
 							</marker>
 						</defs>
 
 						<!-- Flecha inicial a q0 -->
-						<path d="M 20 130 L 68 130" stroke="#64748b" stroke-width="2.5" marker-end="url(#arrow)" fill="none" />
+						<path d="M 25 100 L 62 100" stroke="#64748b" stroke-width="2.5" marker-end="url(#arrow)" fill="none" />
 
-						<!-- Transición q0 -> q1 (con 'a, ε -> A') -->
-						<path d="M 120 120 Q 185 85 240 120" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q0_q1" />
-						<text x="180" y="85" fill="#94a3b8" font-size="12" font-family="'JetBrains Mono', monospace" text-anchor="middle">a, ε → A</text>
+						<!-- Transición q0 -> q1 (con '( a | ε, ↓, A )') -->
+						<path d="M 116 100 L 242 100" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q0_q1" />
+						<text x="180" y="86" fill="#94a3b8" font-size="11" font-family="'JetBrains Mono', monospace" text-anchor="middle">( a | ε, ↓, A )</text>
 
-						<!-- Auto-bucle q1 con 'a, ε -> A' -->
-						<path d="M 270 95 C 255 45 305 45 290 95" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q1_q1" />
-						<text x="280" y="42" fill="#94a3b8" font-size="12" font-family="'JetBrains Mono', monospace" text-anchor="middle">a, ε → A</text>
+						<!-- Auto-bucle q1 con '( a | A, ↓, A )' -->
+						<path d="M 258 77 C 240 25, 300 25, 282 77" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q1_q1" />
+						<text x="270" y="24" fill="#94a3b8" font-size="11" font-family="'JetBrains Mono', monospace" text-anchor="middle">( a | A, ↓, A )</text>
 
-						<!-- Transición q1 -> q2 (con 'b, A -> ε') -->
-						<path d="M 310 120 Q 375 85 430 120" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q1_q2" />
-						<text x="370" y="85" fill="#94a3b8" font-size="12" font-family="'JetBrains Mono', monospace" text-anchor="middle">b, A → ε</text>
+						<!-- Transición q1 -> q2 (con '( b | A, ↑, A )') -->
+						<path d="M 296 100 L 422 100" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q1_q2" />
+						<text x="360" y="86" fill="#94a3b8" font-size="11" font-family="'JetBrains Mono', monospace" text-anchor="middle">( b | A, ↑, A )</text>
 
-						<!-- Auto-bucle q2 con 'b, A -> ε' -->
-						<path d="M 460 95 C 445 45 495 45 480 95" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q2_q2" />
-						<text x="470" y="42" fill="#94a3b8" font-size="12" font-family="'JetBrains Mono', monospace" text-anchor="middle">b, A → ε</text>
+						<!-- Auto-bucle q2 con '( b | A, ↑, A )' -->
+						<path d="M 438 77 C 420 25, 480 25, 462 77" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q2_q2" />
+						<text x="450" y="24" fill="#94a3b8" font-size="11" font-family="'JetBrains Mono', monospace" text-anchor="middle">( b | A, ↑, A )</text>
+
+						<!-- Transición determinista: q0 -> GC (con 'b') -->
+						<path d="M 112 114 L 246 195" stroke="#64748b" stroke-width="1.8" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q0_garbageCollector" />
+						<text x="165" y="165" fill="#f87171" font-size="10" font-family="'JetBrains Mono', monospace" text-anchor="middle">( b | ε, -, - )</text>
+
+						<!-- Transición determinista: q1 -> GC (con error/vaciado) -->
+						<path d="M 270 126 L 270 186" stroke="#64748b" stroke-width="1.8" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q1_garbageCollector" />
+						<text x="252" y="160" fill="#f87171" font-size="10" font-family="'JetBrains Mono', monospace" text-anchor="end">( b | ε, -, - )</text>
+
+						<!-- Transición determinista: q2 -> GC (con 'a') -->
+						<path d="M 428 114 L 294 195" stroke="#64748b" stroke-width="1.8" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q2_garbageCollector" />
+						<text x="375" y="165" fill="#f87171" font-size="10" font-family="'JetBrains Mono', monospace" text-anchor="middle">( a | -, -, - )</text>
+
+						<!-- Auto-bucle GC con 'a, b' -->
+						<path d="M 282 233 C 300 275, 240 275, 258 233" stroke="#64748b" stroke-width="1.8" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_garbageCollector_garbageCollector" />
+						<text x="270" y="285" fill="#94a3b8" font-size="10" font-family="'JetBrains Mono', monospace" text-anchor="middle">( a, b | -, -, - )</text>
 
 						<!-- NODO q0 -->
-						<g id="node_q0" class="state-group" transform="translate(90, 130)">
+						<g id="node_q0" class="state-group" transform="translate(90, 100)">
 							<g class="actual-indicator hidden" id="tag_q0">
 								<rect x="-24" y="-48" width="48" height="18" rx="4" fill="#0284c7" />
 								<text x="0" y="-35" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">Actual</text>
 							</g>
-							<circle r="28" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
-							<text y="5" fill="#f8fafc" font-size="15" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q0</text>
+							<circle r="26" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
+							<text y="5" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q0</text>
 						</g>
 
 						<!-- NODO q1 -->
-						<g id="node_q1" class="state-group" transform="translate(280, 130)">
+						<g id="node_q1" class="state-group" transform="translate(270, 100)">
 							<g class="actual-indicator hidden" id="tag_q1">
 								<rect x="-24" y="-52" width="48" height="18" rx="4" fill="#0284c7" />
 								<text x="0" y="-39" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">Actual</text>
@@ -117,25 +133,25 @@ import Layout from '../layouts/Layout.astro';
 								<circle cx="0" cy="15" r="5" fill="#1e293b" />
 								<path d="M -7 27 A 7 7 0 0 1 7 27" fill="#1e293b" />
 							</g>
-							<circle r="28" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
-							<text y="5" fill="#f8fafc" font-size="15" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q1</text>
+							<circle r="26" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
+							<text y="5" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q1</text>
 						</g>
 
 						<!-- NODO q2 (ESTADO FINAL CON DOBLE CÍRCULO) -->
-						<g id="node_q2" class="state-group" transform="translate(470, 130)">
+						<g id="node_q2" class="state-group" transform="translate(450, 100)">
 							<g class="actual-indicator hidden" id="tag_q2">
 								<rect x="-24" y="-52" width="48" height="18" rx="4" fill="#0284c7" />
 								<text x="0" y="-39" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">Actual</text>
 							</g>
 							<circle r="28" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle-outer" />
 							<circle r="22" fill="#1e293b" stroke="#334155" stroke-width="2" class="node-circle" />
-							<text y="5" fill="#f8fafc" font-size="15" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q2</text>
+							<text y="5" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q2</text>
 						</g>
 
 						<!-- NODO garbageCollector (Trampa) -->
-						<g id="node_garbageCollector" class="state-group" transform="translate(280, 220)">
-							<circle r="20" fill="#1e293b" stroke="#334155" stroke-width="2" class="node-circle" />
-							<text y="4" fill="#64748b" font-size="10" font-weight="600" text-anchor="middle" font-family="'JetBrains Mono', monospace">q_err</text>
+						<g id="node_garbageCollector" class="state-group" transform="translate(270, 210)">
+							<circle r="22" fill="#1e293b" stroke="#ef4444" stroke-width="2" class="node-circle" />
+							<text y="4" fill="#f87171" font-size="10" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q_err</text>
 						</g>
 					</svg>
 				</div>
@@ -208,9 +224,17 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.menu-icon {
-		font-size: 1.4rem;
+		font-size: 1.5rem;
 		color: #94a3b8;
 		cursor: pointer;
+		padding: 2px 6px;
+		border-radius: 4px;
+		transition: all 0.15s;
+		user-select: none;
+	}
+	.menu-icon:hover {
+		color: #38bdf8;
+		background: #1e293b;
 	}
 
 	.simulator-header h1 {
@@ -234,7 +258,7 @@ import Layout from '../layouts/Layout.astro';
 
 	/* Barra superior de Input */
 	.top-input-bar {
-		padding: 12px 24px;
+		padding: 10px 24px;
 		background: #0f172a;
 		border-bottom: 1px solid #1e293b;
 	}
@@ -309,7 +333,7 @@ import Layout from '../layouts/Layout.astro';
 		display: grid;
 		grid-template-columns: 310px 1fr 220px;
 		gap: 16px;
-		padding: 16px 24px;
+		padding: 14px 24px 8px;
 		flex: 1;
 		overflow: hidden;
 	}
