@@ -5,6 +5,7 @@ import java.util.Map;
 import pro.chomskysimulator.service.Nivel3AutomataService;
 import pro.chomskysimulator.service.Nivel2AutomataService;
 import pro.chomskysimulator.service.Nivel1AutomataService;
+import pro.chomskysimulator.service.Nivel0AutomataService;
 import pro.chomskysimulator.dto.SimulationRequest;
 import pro.chomskysimulator.dto.SimulationResult;
 
@@ -21,11 +22,13 @@ public class SimuladorController {
     private final Nivel3AutomataService nivel3Service;
     private final Nivel2AutomataService nivel2Service;
     private final Nivel1AutomataService nivel1Service;
+    private final Nivel0AutomataService nivel0Service;
 
-    public SimuladorController(Nivel3AutomataService nivel3Service, Nivel2AutomataService nivel2Service, Nivel1AutomataService nivel1Service) {
+    public SimuladorController(Nivel3AutomataService nivel3Service, Nivel2AutomataService nivel2Service, Nivel1AutomataService nivel1Service, Nivel0AutomataService nivel0Service) {
         this.nivel3Service = nivel3Service;
         this.nivel2Service = nivel2Service;
         this.nivel1Service = nivel1Service;
+        this.nivel0Service = nivel0Service;
     }
 
     @PostMapping ("/nivel-3")
@@ -67,6 +70,20 @@ public class SimuladorController {
     public ResponseEntity<Map<String, Object>> obtenerInfoNivel1() {
         return ResponseEntity.ok(Map.of(
             "nivel", 1, "nombre", "Gramáticas sensibles al contexto", "modelo", "Autómata linealmente acotado (LBA)", "lenguaje", "L = { a^n b^n c^n | n >= 1 }", "alfabeto", new String[]{"a", "b", "c"}, "alfabetoCinta", new String[]{"a", "b", "c", "X", "Y", "Z", "[", "]"}, "estados", new String[]{"q0", "q1", "q2", "q3", "q4", "q_accept", "garbageCollector"}, "estadoInicial", "q0", "estadosAceptacion", new String[]{"q_accept"}, "ejemplosValidos", new String[]{"abc", "aabbcc", "aaabbbccc"}, "ejemplosInvalidos", new String[]{"", "ab", "aabbc", "aabbccc", "abcba"}
+        ));
+    }
+
+    @PostMapping ("/nivel-0")
+    public ResponseEntity<SimulationResult> simulateNivel0(@RequestBody SimulationRequest request) {
+        String input = (request != null) ? request.input() : "";
+        SimulationResult result = nivel0Service.simular(input);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping ("/nivel-0/info")
+    public ResponseEntity<Map<String, Object>> obtenerInfoNivel0() {
+        return ResponseEntity.ok(Map.of(
+            "nivel", 0, "nombre", "Gramáticas recursivamente enumerables", "modelo", "Máquina de Turing (MT)", "lenguaje", "L = { a^n b^m c^(n*m) | n, m >= 1 }", "alfabeto", new String[]{"a", "b", "c"}, "alfabetoCinta", new String[]{"a", "b", "c", "X", "Y", "Z", "B"}, "estados", new String[]{"q0", "q1", "q2", "q3", "q4", "q5", "q_accept", "garbageCollector"}, "estadoInicial", "q0", "estadosAceptacion", new String[]{"q_accept"}, "ejemplosValidos", new String[]{"abc", "abbcc", "aabcc", "aabbcccc"}, "ejemplosInvalidos", new String[]{"", "ab", "abcc", "aabbcc", "abcba"}
         ));
     }
 }
