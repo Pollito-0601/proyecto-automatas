@@ -14,7 +14,7 @@ Desarrollar un programa tipo simulador interactivo que demuestre como funcionan 
 
 ### Estados
 
-Documentación inicial - actual
+Implementación y pruebas completadas
 
 ## Lenguajes en los que se desarrollará el proyecto
 
@@ -30,11 +30,32 @@ Documentación inicial - actual
 
 ## Pasos de ejecución del programa
 
-Para ejecutar las pruebas unitarias, en una terminal, dentro de la carpeta [backend/](backend/) ejecutar:
+### 1. Backend (Spring Boot)
 
-``` powershell
+Para ejecutar el servidor backend, en una terminal dentro de la carpeta [backend/](backend/):
+
+```powershell
+mvn spring-boot:run
+```
+
+El backend se iniciará en `http://localhost:8080`.
+
+Para ejecutar las pruebas unitarias automatizadas:
+
+```powershell
 mvn test
 ```
+
+### 2. Frontend (Astro)
+
+Para ejecutar la interfaz gráfica, en una segunda terminal dentro de la carpeta [frontend/](frontend/):
+
+```powershell
+npm install
+npm run dev
+```
+
+La aplicación se iniciará en `http://localhost:4321`.
 
 ## Ejemplos de cadenas de prueba utilizados para cada nivel
 
@@ -46,6 +67,9 @@ $$L = \{a^n b^m \mid m, n \ge 1 \}$$
 
 Es decir, el lenguaje recibe cualquier cadena que contenga al menos una 'a' seguidas de al menos una 'b'.
 
+- Cadenas válidas: `ab`, `aab`, `abbb`, `aaabbb`
+- Cadenas inválidas: `a`, `b`, `ba`, `aba`, `aabba`
+
 ---
 
 ### Nivel 2
@@ -53,6 +77,9 @@ Es decir, el lenguaje recibe cualquier cadena que contenga al menos una 'a' segu
 $$L = \{a^n b^n \mid n \ge 1 \}$$
 
 Lo que significa que, el lenguaje aceptara cualquier cadena que contenga una cantidad n de 'a', donde n es al menos 1, seguidas de la misma cantidad de 'b'.
+
+- Cadenas válidas: `ab`, `aabb`, `aaabbb`, `aaaabbbb`
+- Cadenas inválidas: `a`, `b`, `aab`, `abb`, `ba`, `abab`
 
 ---
 
@@ -62,6 +89,9 @@ $$L = \{a^n b^n c^n \mid n \ge 1 \}$$
 
 Es el mismo lenguaje que en el nivel 2, con un agregado, luego de las 'b' deben haber la misma cantidad que 'a' y 'b' que de 'c'.
 
+- Cadenas válidas: `abc`, `aabbcc`, `aaabbbccc`
+- Cadenas inválidas: `ab`, `aabbc`, `aabbccc`, `abcba`, `cba`
+
 ---
 
 ### Nivel 0
@@ -69,6 +99,9 @@ Es el mismo lenguaje que en el nivel 2, con un agregado, luego de las 'b' deben 
 $$L = \{a^n b^m c^{n \times m} \mid n, m \ge 1 \}$$
 
 Lo que significa que el lenguaje aceptará cualquier cadena que comience con una cantidad n de 'a', seguida de una cantidad m de 'b' (donde ambos valores son al menos 1), y que finalice con una cantidad de 'c' exactamente igual al producto (multiplicación) de la cantidad de 'a' por la cantidad de 'b'.
+
+- Cadenas válidas: `abc` (1x1=1), `abbcc` (1x2=2), `aabcc` (2x1=2), `aabbcccc` (2x2=4)
+- Cadenas inválidas: `ab`, `abcc`, `aabbcc`, `abcba`
 
 ## Modelo computacional por nivel
 
