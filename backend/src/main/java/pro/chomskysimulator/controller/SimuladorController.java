@@ -1,6 +1,7 @@
 package pro.chomskysimulator.controller;
 
 import java.util.Map;
+import java.util.LinkedHashMap;
 
 import pro.chomskysimulator.service.Nivel3AutomataService;
 import pro.chomskysimulator.service.Nivel2AutomataService;
@@ -40,9 +41,18 @@ public class SimuladorController {
 
     @GetMapping ("/nivel-3/info")
     public ResponseEntity<Map<String, Object>> obtenerInfoNivel3() {
-        return ResponseEntity.ok(Map.of(
-            "nivel", 3, "nombre", "Gramáticas regulares", "modelo", "Autómata finito determinista (AFD)", "lenguaje", "L = { a^n b^m | n, m >= 1 }", "alfabeto", new String[]{"a", "b"}, "estados", new String[]{"q0", "q1", "q2", "garbageCollector"}, "estadoInicial", "q0", "estadosAceptacion", new String[]{"q2"}, "ejemplosValidos", new String[]{"ab", "aab", "abbb", "aaabbb"}, "ejemplosInvalidos", new String[]{"", "a", "b", "ba", "aabba"}
-        ));
+        Map<String, Object> info = new LinkedHashMap<>();
+        info.put("nivel", 3);
+        info.put("nombre", "Gramáticas regulares");
+        info.put("modelo", "Autómata finito determinista (AFD)");
+        info.put("lenguaje", "L = { a^n b^m | n, m >= 1 }");
+        info.put("alfabeto", new String[]{"a", "b"});
+        info.put("estados", new String[]{"q0", "q1", "q2", "garbageCollector"});
+        info.put("estadoInicial", "q0");
+        info.put("estadosAceptacion", new String[]{"q2"});
+        info.put("ejemplosValidos", new String[]{"ab", "aab", "abbb", "aaabbb"});
+        info.put("ejemplosInvalidos", new String[]{"", "a", "b", "ba", "aabba"});
+        return ResponseEntity.ok(info);
     }
 
     @PostMapping ("/nivel-2")
@@ -54,9 +64,19 @@ public class SimuladorController {
 
     @GetMapping ("/nivel-2/info")
     public ResponseEntity<Map<String, Object>> obtenerInfoNivel2() {
-        return ResponseEntity.ok(Map.of(
-            "nivel", 2, "nombre", "Gramáticas libres de contexto", "modelo", "Autómata con pila (PDA)", "lenguaje", "L = { a^n b^n | n >= 1 }", "alfabeto", new String[]{"a", "b"}, "alfabetoPila", new String[]{"A"}, "estados", new String[]{"q0", "q1", "q2", "garbageCollector"}, "estadoInicial", "q0", "estadosAceptacion", new String[]{"q2"}, "ejemplosValidos", new String[]{"ab", "aabb", "aaabbb", "aaaabbbb"}, "ejemplosInvalidos", new String[]{"", "a", "b", "aab", "abb", "ba", "abab"}
-        ));
+        Map<String, Object> info = new LinkedHashMap<>();
+        info.put("nivel", 2);
+        info.put("nombre", "Gramáticas libres de contexto");
+        info.put("modelo", "Autómata con pila (PDA)");
+        info.put("lenguaje", "L = { a^n b^n | n >= 1 }");
+        info.put("alfabeto", new String[]{"a", "b"});
+        info.put("alfabetoPila", new String[]{"A"});
+        info.put("estados", new String[]{"q0", "q1", "q2", "garbageCollector"});
+        info.put("estadoInicial", "q0");
+        info.put("estadosAceptacion", new String[]{"q2"});
+        info.put("ejemplosValidos", new String[]{"ab", "aabb", "aaabbb", "aaaabbbb"});
+        info.put("ejemplosInvalidos", new String[]{"", "a", "b", "aab", "abb", "ba", "abab"});
+        return ResponseEntity.ok(info);
     }
 
     @PostMapping ("/nivel-1")
@@ -68,9 +88,19 @@ public class SimuladorController {
 
     @GetMapping ("/nivel-1/info")
     public ResponseEntity<Map<String, Object>> obtenerInfoNivel1() {
-        return ResponseEntity.ok(Map.of(
-            "nivel", 1, "nombre", "Gramáticas sensibles al contexto", "modelo", "Autómata linealmente acotado (LBA)", "lenguaje", "L = { a^n b^n c^n | n >= 1 }", "alfabeto", new String[]{"a", "b", "c"}, "alfabetoCinta", new String[]{"a", "b", "c", "X", "Y", "Z", "[", "]"}, "estados", new String[]{"q0", "q1", "q2", "q3", "q4", "q_accept", "garbageCollector"}, "estadoInicial", "q0", "estadosAceptacion", new String[]{"q_accept"}, "ejemplosValidos", new String[]{"abc", "aabbcc", "aaabbbccc"}, "ejemplosInvalidos", new String[]{"", "ab", "aabbc", "aabbccc", "abcba"}
-        ));
+        Map<String, Object> info = new LinkedHashMap<>();
+        info.put("nivel", 1);
+        info.put("nombre", "Gramáticas sensibles al contexto");
+        info.put("modelo", "Autómata linealmente acotado (LBA)");
+        info.put("lenguaje", "L = { a^n b^n c^n | n >= 1 }");
+        info.put("alfabeto", new String[]{"a", "b", "c"});
+        info.put("alfabetoCinta", new String[]{"a", "b", "c", "X", "Y", "Z", "[", "]"});
+        info.put("estados", new String[]{"q0", "q1", "q2", "q3", "q4", "q_accept", "garbageCollector"});
+        info.put("estadoInicial", "q0");
+        info.put("estadosAceptacion", new String[]{"q_accept"});
+        info.put("ejemplosValidos", new String[]{"abc", "aabbcc", "aaabbbccc"});
+        info.put("ejemplosInvalidos", new String[]{"", "ab", "aabbc", "aabbccc", "abcba"});
+        return ResponseEntity.ok(info);
     }
 
     @PostMapping ("/nivel-0")
@@ -82,8 +112,18 @@ public class SimuladorController {
 
     @GetMapping ("/nivel-0/info")
     public ResponseEntity<Map<String, Object>> obtenerInfoNivel0() {
-        return ResponseEntity.ok(Map.of(
-            "nivel", 0, "nombre", "Gramáticas recursivamente enumerables", "modelo", "Máquina de Turing (MT)", "lenguaje", "L = { a^n b^m c^(n*m) | n, m >= 1 }", "alfabeto", new String[]{"a", "b", "c"}, "alfabetoCinta", new String[]{"a", "b", "c", "X", "Y", "Z", "B"}, "estados", new String[]{"q0", "q1", "q2", "q3", "q4", "q5", "q_accept", "garbageCollector"}, "estadoInicial", "q0", "estadosAceptacion", new String[]{"q_accept"}, "ejemplosValidos", new String[]{"abc", "abbcc", "aabcc", "aabbcccc"}, "ejemplosInvalidos", new String[]{"", "ab", "abcc", "aabbcc", "abcba"}
-        ));
+        Map<String, Object> info = new LinkedHashMap<>();
+        info.put("nivel", 0);
+        info.put("nombre", "Gramáticas recursivamente enumerables");
+        info.put("modelo", "Máquina de Turing (MT)");
+        info.put("lenguaje", "L = { a^n b^m c^(n*m) | n, m >= 1 }");
+        info.put("alfabeto", new String[]{"a", "b", "c"});
+        info.put("alfabetoCinta", new String[]{"a", "b", "c", "X", "Y", "Z", "B"});
+        info.put("estados", new String[]{"q0", "q1", "q2", "q3", "q4", "q5", "q_accept", "garbageCollector"});
+        info.put("estadoInicial", "q0");
+        info.put("estadosAceptacion", new String[]{"q_accept"});
+        info.put("ejemplosValidos", new String[]{"abc", "abbcc", "aabcc", "aabbcccc"});
+        info.put("ejemplosInvalidos", new String[]{"", "ab", "abcc", "aabbcc", "abcba"});
+        return ResponseEntity.ok(info);
     }
 }
