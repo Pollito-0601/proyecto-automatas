@@ -33,6 +33,13 @@ public class Nivel0AutomataService {
             return new SimulationResult(input, false, GC, "La cadena está vacía, por lo tanto es rechazada: se requiere al menos a^1 b^1 c^1 (n, m >= 1).", pasos);
         }
 
+        // El alfabeto de entrada es {a, b, c}; los símbolos X, Y, Z y B son solo de la cinta
+        if (!input.matches("[abc]+")) {
+            String mensajeAlfabeto = "La cadena contiene símbolos fuera del alfabeto de entrada {a, b, c}, por lo tanto es rechazada.";
+            pasos.add(new SimulationStep(0, Q0, null, 0, GC, List.of("B"), "Inicio: " + mensajeAlfabeto, false));
+            return new SimulationResult(input, false, GC, mensajeAlfabeto, pasos);
+        }
+
         // Estructura de la cinta dinámica con margen de blancos
         List<Character> cinta = new ArrayList<>();
         cinta.add(BLANCO);
@@ -75,7 +82,8 @@ public class Nivel0AutomataService {
                         siguienteEstado = Q1;
                         direccion = 1;
                         descripcion = String.format("Paso %d: En q0 lee 'a'. Marca con 'X' y avanza (R) a q1 para emparejar con las 'b'", contadorPasos);
-                    } else if (simboloLeido == 'Y' || simboloLeido == 'b') {
+                    } else if (simboloLeido == 'b' && cabezal > 0 && cinta.get(cabezal - 1) == 'X') {
+                        // Solo hay verificación final si antes se procesó al menos una 'a' (a la izquierda hay una 'X')
                         siguienteEstado = Q5;
                         direccion = 1;
                         descripcion = String.format("Paso %d: En q0 lee '%c'. Todas las 'a' han sido multiplicadas, pasa (R) a q5 para verificar las 'c'", contadorPasos, simboloLeido);
@@ -151,7 +159,11 @@ public class Nivel0AutomataService {
                     }
                 }
                 case Q5 -> {
-                    if (simboloLeido == 'Y' || simboloLeido == 'b' || simboloLeido == 'Z') {
+                    if (simboloLeido == 'b' && cinta.get(cabezal - 1) == 'Z') {
+                        siguienteEstado = GC;
+                        descripcion = String.format("Paso %d: En q5 se encontró una 'b' después de las 'c'. El orden a^n b^m c^(n*m) no se cumple, pasa a garbageCollector", contadorPasos);
+                        terminado = true;
+                    } else if (simboloLeido == 'Y' || simboloLeido == 'b' || simboloLeido == 'Z') {
                         direccion = 1;
                         descripcion = String.format("Paso %d: En q5 verificando símbolos marcados '%c' hacia la derecha (R)", contadorPasos, simboloLeido);
                     } else if (simboloLeido == BLANCO) {

@@ -32,6 +32,13 @@ public class Nivel1AutomataService {
             return new SimulationResult(input, false, GC, "La cadena está vacía, por lo tanto es rechazada: se requiere al menos a^1 b^1 c^1 (n >= 1).", pasos);
         }
 
+        // El alfabeto de entrada es {a, b, c}; X, Y, Z y los delimitadores son solo de la cinta
+        if (!input.matches("[abc]+")) {
+            String mensajeAlfabeto = "La cadena contiene símbolos fuera del alfabeto de entrada {a, b, c}, por lo tanto es rechazada.";
+            pasos.add(new SimulationStep(0, Q0, null, 0, GC, List.of("[", "]"), "Inicio: " + mensajeAlfabeto, false));
+            return new SimulationResult(input, false, GC, mensajeAlfabeto, pasos);
+        }
+
         // Construcción de la cinta acotada: [ + input + ]
         List<Character> cinta = new ArrayList<>();
         cinta.add('[');
