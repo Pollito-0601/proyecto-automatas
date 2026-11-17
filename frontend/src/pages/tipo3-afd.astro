@@ -21,8 +21,8 @@ import Layout from '../layouts/Layout.astro';
 			</div>
 		</header>
 
-		<!-- Barra de controles -->
-		<section class="controls-bar">
+		<!-- Barra superior de Input -->
+		<section class="top-input-bar">
 			<div class="input-card">
 				<span class="input-label">Input</span>
 				<div class="input-row">
@@ -36,20 +36,6 @@ import Layout from '../layouts/Layout.astro';
 					<button class="preset-btn" data-val="abbbb">abbbb (válida)</button>
 					<button class="preset-btn invalid" data-val="aba">aba (inválida)</button>
 					<button class="preset-btn invalid" data-val="ba">ba (inválida)</button>
-				</div>
-			</div>
-
-			<div class="actions-card">
-				<button id="btnAnterior" class="btn btn-secondary" title="Paso Anterior">Anterior (◀)</button>
-				<button id="btnPausa" class="btn btn-secondary" title="Pausar / Reanudar">Pausar (⏸)</button>
-				<button id="btnSiguiente" class="btn btn-secondary" title="Paso Siguiente">Siguiente (▶)</button>
-				
-				<div class="speed-control">
-					<div class="speed-label-row">
-						<span>Velocidad</span>
-						<span id="speedVal">600ms</span>
-					</div>
-					<input type="range" id="speedSlider" min="150" max="1500" step="50" value="600" />
 				</div>
 			</div>
 		</section>
@@ -90,10 +76,6 @@ import Layout from '../layouts/Layout.astro';
 							<marker id="arrow-active" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
 								<path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8" />
 							</marker>
-							<filter id="glow-filter" x="-30%" y="-30%" width="160%" height="160%">
-								<feGaussianBlur stdDeviation="6" result="blur" />
-								<feComposite in="SourceGraphic" in2="blur" operator="over" />
-							</filter>
 						</defs>
 
 						<!-- Flecha inicial a q0 -->
@@ -117,18 +99,30 @@ import Layout from '../layouts/Layout.astro';
 
 						<!-- NODO q0 -->
 						<g id="node_q0" class="state-group" transform="translate(90, 130)">
+							<g class="actual-indicator hidden" id="tag_q0">
+								<rect x="-24" y="-48" width="48" height="18" rx="4" fill="#0284c7" />
+								<text x="0" y="-35" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">Actual</text>
+							</g>
 							<circle r="28" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
 							<text y="5" fill="#f8fafc" font-size="15" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q0</text>
 						</g>
 
 						<!-- NODO q1 -->
 						<g id="node_q1" class="state-group" transform="translate(280, 130)">
+							<g class="actual-indicator hidden" id="tag_q1">
+								<rect x="-24" y="-48" width="48" height="18" rx="4" fill="#0284c7" />
+								<text x="0" y="-35" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">Actual</text>
+							</g>
 							<circle r="28" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
 							<text y="5" fill="#f8fafc" font-size="15" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q1</text>
 						</g>
 
 						<!-- NODO q2 (ESTADO FINAL CON DOBLE CÍRCULO) -->
 						<g id="node_q2" class="state-group" transform="translate(470, 130)">
+							<g class="actual-indicator hidden" id="tag_q2">
+								<rect x="-24" y="-48" width="48" height="18" rx="4" fill="#0284c7" />
+								<text x="0" y="-35" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">Actual</text>
+							</g>
 							<circle r="28" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle-outer" />
 							<circle r="22" fill="#1e293b" stroke="#334155" stroke-width="2" class="node-circle" />
 							<text y="5" fill="#f8fafc" font-size="15" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q2</text>
@@ -172,6 +166,23 @@ import Layout from '../layouts/Layout.astro';
 				</div>
 			</section>
 		</main>
+
+		<!-- Barra de Manipulación de Simulación (Abajo del todo) -->
+		<footer class="bottom-control-bar">
+			<div class="control-actions">
+				<button id="btnAnterior" class="btn btn-secondary" title="Paso Anterior">Anterior (◀)</button>
+				<button id="btnPausa" class="btn btn-secondary" title="Pausar / Reanudar">Pausar (⏸)</button>
+				<button id="btnSiguiente" class="btn btn-secondary" title="Paso Siguiente">Siguiente (▶)</button>
+			</div>
+
+			<div class="speed-selector-group">
+				<span class="speed-title">Velocidad:</span>
+				<button class="speed-toggle" data-mult="0.5">x0.5</button>
+				<button class="speed-toggle active" data-mult="1">x1</button>
+				<button class="speed-toggle" data-mult="2">x2</button>
+				<span id="speedVal" class="speed-display">1400ms</span>
+			</div>
+		</footer>
 
 		<!-- Modal de Rechazo -->
 		<div id="modalRechazo" class="modal-backdrop hidden">
@@ -235,12 +246,9 @@ import Layout from '../layouts/Layout.astro';
 		background: #1e293b;
 	}
 
-	/* Barra de Controles */
-	.controls-bar {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		gap: 16px;
-		padding: 14px 24px;
+	/* Barra superior de input */
+	.top-input-bar {
+		padding: 12px 24px;
 		background: #0f172a;
 		border-bottom: 1px solid #1e293b;
 	}
@@ -308,37 +316,6 @@ import Layout from '../layouts/Layout.astro';
 	.preset-btn.invalid:hover {
 		color: #f87171;
 		border-color: #ef4444;
-	}
-
-	.actions-card {
-		background: #151c2e;
-		border: 1px solid #273452;
-		border-radius: 12px;
-		padding: 8px 16px;
-		display: flex;
-		align-items: center;
-		gap: 12px;
-	}
-
-	.speed-control {
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
-		width: 130px;
-		padding-left: 8px;
-		border-left: 1px solid #273452;
-	}
-
-	.speed-label-row {
-		display: flex;
-		justify-content: space-between;
-		font-size: 0.72rem;
-		color: #94a3b8;
-	}
-
-	.speed-control input[type=range] {
-		accent-color: #3b82f6;
-		cursor: pointer;
 	}
 
 	/* Tablero 3 Columnas */
@@ -526,6 +503,10 @@ import Layout from '../layouts/Layout.astro';
 		filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.85));
 	}
 
+	:global(.actual-indicator.hidden) {
+		display: none;
+	}
+
 	:global(.trans-edge.active-edge) {
 		stroke: #38bdf8 !important;
 		stroke-width: 3px !important;
@@ -603,6 +584,68 @@ import Layout from '../layouts/Layout.astro';
 	.legend-dot.initial { background: #64748b; }
 	.legend-dot.final { border: 2px double #3b82f6; background: transparent; }
 	.legend-dot.active { background: #38bdf8; box-shadow: 0 0 8px #38bdf8; }
+
+	/* Barra Inferior de Manipulación de Simulación */
+	.bottom-control-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 12px 24px;
+		background: #111827;
+		border-top: 1px solid #1f293d;
+	}
+
+	.control-actions {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.speed-selector-group {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		background: #151c2e;
+		border: 1px solid #273452;
+		border-radius: 10px;
+		padding: 4px 12px;
+	}
+
+	.speed-title {
+		font-size: 0.75rem;
+		color: #94a3b8;
+		font-weight: 600;
+	}
+
+	.speed-toggle {
+		background: #1e293b;
+		border: 1px solid #334155;
+		color: #94a3b8;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.78rem;
+		font-weight: 700;
+		padding: 4px 10px;
+		border-radius: 6px;
+		cursor: pointer;
+		transition: all 0.18s ease;
+	}
+	.speed-toggle:hover {
+		color: #f8fafc;
+		border-color: #475569;
+	}
+	.speed-toggle.active {
+		background: #2563eb;
+		color: #ffffff;
+		border-color: #38bdf8;
+		box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+	}
+
+	.speed-display {
+		font-size: 0.72rem;
+		color: #64748b;
+		font-family: 'JetBrains Mono', monospace;
+		margin-left: 4px;
+	}
 
 	/* Modal de Rechazo */
 	.modal-backdrop {
@@ -691,14 +734,14 @@ import Layout from '../layouts/Layout.astro';
 	let currentStepIdx = 0;
 	let timer: any = null;
 	let isPaused = false;
-	let speedMs = 600;
+	const BASE_SPEED = 1400;
+	let speedMs = 1400;
 
 	const cadenaInput = document.getElementById('cadenaInput') as HTMLInputElement;
 	const btnIniciar = document.getElementById('btnIniciar');
 	const btnAnterior = document.getElementById('btnAnterior') as HTMLButtonElement;
 	const btnPausa = document.getElementById('btnPausa') as HTMLButtonElement;
 	const btnSiguiente = document.getElementById('btnSiguiente') as HTMLButtonElement;
-	const speedSlider = document.getElementById('speedSlider') as HTMLInputElement;
 	const speedVal = document.getElementById('speedVal');
 
 	const stringDisplay = document.getElementById('stringDisplay');
@@ -719,14 +762,20 @@ import Layout from '../layouts/Layout.astro';
 		});
 	});
 
-	// Velocidad
-	speedSlider?.addEventListener('input', () => {
-		speedMs = parseInt(speedSlider.value, 10);
-		if (speedVal) speedVal.textContent = `${speedMs}ms`;
-		if (timer && !isPaused) {
-			clearInterval(timer);
-			timer = setInterval(avanzarPasoAutomatico, speedMs);
-		}
+	// Velocidad: solo x0.5, x1, x2
+	document.querySelectorAll('.speed-toggle').forEach(btn => {
+		btn.addEventListener('click', () => {
+			document.querySelectorAll('.speed-toggle').forEach(b => b.classList.remove('active'));
+			btn.classList.add('active');
+			const mult = parseFloat(btn.getAttribute('data-mult') || '1');
+			speedMs = Math.round(BASE_SPEED / mult);
+			if (speedVal) speedVal.textContent = `${speedMs}ms`;
+
+			if (timer && !isPaused) {
+				clearInterval(timer);
+				timer = setInterval(avanzarPasoAutomatico, speedMs);
+			}
+		});
 	});
 
 	btnIniciar?.addEventListener('click', iniciarSimulacion);
@@ -813,10 +862,16 @@ import Layout from '../layouts/Layout.astro';
 			activeTrace.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 		}
 
-		// Resaltar nodo en el SVG
+		// Resaltar nodo en el SVG y tags de "Actual"
 		document.querySelectorAll('.state-group').forEach(el => el.classList.remove('active-state'));
+		document.querySelectorAll('.actual-indicator').forEach(el => el.classList.add('hidden'));
+
 		const targetStateNode = document.getElementById(`node_${step.nextState}`);
-		if (targetStateNode) targetStateNode.classList.add('active-state');
+		if (targetStateNode) {
+			targetStateNode.classList.add('active-state');
+			const tag = document.getElementById(`tag_${step.nextState}`);
+			if (tag) tag.classList.remove('hidden');
+		}
 
 		// Resaltar flecha
 		document.querySelectorAll('.trans-edge').forEach(el => el.classList.remove('active-edge'));

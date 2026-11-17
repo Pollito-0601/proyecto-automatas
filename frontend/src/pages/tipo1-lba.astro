@@ -21,8 +21,8 @@ import Layout from '../layouts/Layout.astro';
 			</div>
 		</header>
 
-		<!-- Barra de controles -->
-		<section class="controls-bar">
+		<!-- Barra superior de Input -->
+		<section class="top-input-bar">
 			<div class="input-card">
 				<span class="input-label">Input</span>
 				<div class="input-row">
@@ -39,24 +39,10 @@ import Layout from '../layouts/Layout.astro';
 					<button class="preset-btn invalid" data-val="abcba">abcba (inválida)</button>
 				</div>
 			</div>
-
-			<div class="actions-card">
-				<button id="btnAnterior" class="btn btn-secondary" title="Paso Anterior">Anterior (◀)</button>
-				<button id="btnPausa" class="btn btn-secondary" title="Pausar / Reanudar">Pausar (⏸)</button>
-				<button id="btnSiguiente" class="btn btn-secondary" title="Paso Siguiente">Siguiente (▶)</button>
-				
-				<div class="speed-control">
-					<div class="speed-label-row">
-						<span>Velocidad</span>
-						<span id="speedVal">600ms</span>
-					</div>
-					<input type="range" id="speedSlider" min="150" max="1500" step="50" value="600" />
-				</div>
-			</div>
 		</section>
 
-		<!-- Tablero de 3 columnas -->
-		<main class="grid-main">
+		<!-- Tablero de 3 columnas superiores -->
+		<main class="grid-main-compact">
 			<!-- Columna 1: Traza y Estado -->
 			<section class="card-panel panel-trace">
 				<h2 class="panel-title">Traza y estado</h2>
@@ -83,7 +69,7 @@ import Layout from '../layouts/Layout.astro';
 			<section class="card-panel panel-automaton">
 				<h2 class="panel-title">LBA (Autómata Linealmente Acotado)</h2>
 				<div class="svg-canvas-container">
-					<svg id="automatonSvg" viewBox="0 0 540 300" class="automaton-svg">
+					<svg id="automatonSvg" viewBox="0 0 540 260" class="automaton-svg">
 						<defs>
 							<marker id="arrow" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
 								<path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748b" />
@@ -94,122 +80,146 @@ import Layout from '../layouts/Layout.astro';
 						</defs>
 
 						<!-- Flecha inicial a q0 -->
-						<path d="M 20 80 L 58 80" stroke="#64748b" stroke-width="2.5" marker-end="url(#arrow)" fill="none" />
+						<path d="M 20 70 L 58 70" stroke="#64748b" stroke-width="2.5" marker-end="url(#arrow)" fill="none" />
 
 						<!-- Conexiones -->
-						<path d="M 115 80 L 195 80" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q0_q1" />
-						<text x="155" y="70" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="'JetBrains Mono', monospace">a/X, R</text>
+						<path d="M 115 70 L 195 70" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q0_q1" />
+						<text x="155" y="60" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="'JetBrains Mono', monospace">a/X, R</text>
 
-						<path d="M 255 80 L 335 80" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q1_q2" />
-						<text x="295" y="70" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="'JetBrains Mono', monospace">b/Y, R</text>
+						<path d="M 255 70 L 335 70" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q1_q2" />
+						<text x="295" y="60" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="'JetBrains Mono', monospace">b/Y, R</text>
 
-						<path d="M 395 80 L 475 80" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q2_q3" />
-						<text x="435" y="70" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="'JetBrains Mono', monospace">c/Z, L</text>
+						<path d="M 395 70 L 475 70" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q2_q3" />
+						<text x="435" y="60" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="'JetBrains Mono', monospace">c/Z, L</text>
 
 						<!-- Retorno q3 -> q0 -->
-						<path d="M 480 110 Q 295 180 105 110" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q3_q0" />
-						<text x="295" y="165" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="'JetBrains Mono', monospace">X/X, R</text>
+						<path d="M 480 95 Q 295 155 105 95" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q3_q0" />
+						<text x="295" y="145" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="'JetBrains Mono', monospace">X/X, R</text>
 
 						<!-- Verificación q0 -> q4 -->
-						<path d="M 85 110 Q 85 220 200 220" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q0_q4" />
-						<text x="140" y="210" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="'JetBrains Mono', monospace">Y/Y, R</text>
+						<path d="M 85 95 Q 85 195 200 195" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q0_q4" />
+						<text x="140" y="185" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="'JetBrains Mono', monospace">Y/Y, R</text>
 
 						<!-- Aceptación q4 -> q_accept -->
-						<path d="M 260 220 L 440 220" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q4_q_accept" />
-						<text x="350" y="210" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="'JetBrains Mono', monospace">]/], S</text>
+						<path d="M 260 195 L 440 195" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" fill="none" class="trans-edge" id="edge_q4_q_accept" />
+						<text x="350" y="185" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="'JetBrains Mono', monospace">]/], S</text>
 
 						<!-- NODOS -->
 						<!-- q0 -->
-						<g id="node_q0" class="state-group" transform="translate(85, 80)">
+						<g id="node_q0" class="state-group" transform="translate(85, 70)">
 							<g class="actual-indicator hidden" id="tag_q0">
 								<rect x="-24" y="-48" width="48" height="18" rx="4" fill="#0284c7" />
 								<text x="0" y="-35" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">Actual</text>
 							</g>
-							<circle r="26" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
-							<text y="5" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q0</text>
+							<circle r="25" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
+							<text y="5" fill="#f8fafc" font-size="13" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q0</text>
 						</g>
 
 						<!-- q1 -->
-						<g id="node_q1" class="state-group" transform="translate(225, 80)">
+						<g id="node_q1" class="state-group" transform="translate(225, 70)">
 							<g class="actual-indicator hidden" id="tag_q1">
 								<rect x="-24" y="-48" width="48" height="18" rx="4" fill="#0284c7" />
 								<text x="0" y="-35" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">Actual</text>
 							</g>
-							<circle r="26" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
-							<text y="5" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q1</text>
+							<circle r="25" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
+							<text y="5" fill="#f8fafc" font-size="13" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q1</text>
 						</g>
 
 						<!-- q2 -->
-						<g id="node_q2" class="state-group" transform="translate(365, 80)">
+						<g id="node_q2" class="state-group" transform="translate(365, 70)">
 							<g class="actual-indicator hidden" id="tag_q2">
 								<rect x="-24" y="-48" width="48" height="18" rx="4" fill="#0284c7" />
 								<text x="0" y="-35" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">Actual</text>
 							</g>
-							<circle r="26" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
-							<text y="5" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q2</text>
+							<circle r="25" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
+							<text y="5" fill="#f8fafc" font-size="13" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q2</text>
 						</g>
 
 						<!-- q3 -->
-						<g id="node_q3" class="state-group" transform="translate(500, 80)">
+						<g id="node_q3" class="state-group" transform="translate(500, 70)">
 							<g class="actual-indicator hidden" id="tag_q3">
 								<rect x="-24" y="-48" width="48" height="18" rx="4" fill="#0284c7" />
 								<text x="0" y="-35" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">Actual</text>
 							</g>
-							<circle r="26" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
-							<text y="5" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q3</text>
+							<circle r="25" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
+							<text y="5" fill="#f8fafc" font-size="13" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q3</text>
 						</g>
 
 						<!-- q4 -->
-						<g id="node_q4" class="state-group" transform="translate(230, 220)">
+						<g id="node_q4" class="state-group" transform="translate(230, 195)">
 							<g class="actual-indicator hidden" id="tag_q4">
 								<rect x="-24" y="-48" width="48" height="18" rx="4" fill="#0284c7" />
 								<text x="0" y="-35" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">Actual</text>
 							</g>
-							<circle r="26" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
-							<text y="5" fill="#f8fafc" font-size="14" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q4</text>
+							<circle r="25" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle" />
+							<text y="5" fill="#f8fafc" font-size="13" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">q4</text>
 						</g>
 
 						<!-- q_accept (DOBLE CÍRCULO FINAL) -->
-						<g id="node_q_accept" class="state-group" transform="translate(470, 220)">
+						<g id="node_q_accept" class="state-group" transform="translate(470, 195)">
 							<g class="actual-indicator hidden" id="tag_q_accept">
 								<rect x="-24" y="-48" width="48" height="18" rx="4" fill="#10b981" />
 								<text x="0" y="-35" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">Actual</text>
 							</g>
-							<circle r="28" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle-outer" />
-							<circle r="22" fill="#1e293b" stroke="#334155" stroke-width="2" class="node-circle" />
+							<circle r="27" fill="#1e293b" stroke="#334155" stroke-width="2.5" class="node-circle-outer" />
+							<circle r="21" fill="#1e293b" stroke="#334155" stroke-width="2" class="node-circle" />
 							<text y="4" fill="#34d399" font-size="11" font-weight="800" text-anchor="middle" font-family="'JetBrains Mono', monospace">q_acc</text>
 						</g>
 					</svg>
 				</div>
 			</section>
 
-			<!-- Columna 3: Cinta Acotada y Cabezal -->
-			<section class="card-panel panel-tape">
-				<h2 class="panel-title">Cinta Acotada y Cabezal</h2>
+			<!-- Columna 3: Barra de Manejo de la Simulación -->
+			<section class="card-panel panel-controls-side">
+				<h2 class="panel-title">Manejo de simulación</h2>
 				
-				<div class="tape-container-box">
-					<div class="tape-header-info">
-						<span class="tape-badge">Límites: [ y ]</span>
-						<span id="headPosInfo" class="head-badge font-mono">Cabezal: Pos 1</span>
+				<div class="control-side-box">
+					<div class="control-side-buttons">
+						<button id="btnAnterior" class="btn btn-secondary btn-full" title="Paso Anterior">Anterior (◀)</button>
+						<button id="btnPausa" class="btn btn-primary btn-full" title="Pausar / Reanudar">Pausar (⏸)</button>
+						<button id="btnSiguiente" class="btn btn-secondary btn-full" title="Paso Siguiente">Siguiente (▶)</button>
 					</div>
 
-					<div class="head-indicator-wrapper">
-						<div id="headPointer" class="head-pointer">
-							<span class="head-label">CABEZAL</span>
-							<div class="head-arrow">▼</div>
+					<div class="speed-control-side">
+						<span class="speed-title">Velocidad:</span>
+						<div class="speed-btn-group">
+							<button class="speed-toggle" data-mult="0.5">x0.5</button>
+							<button class="speed-toggle active" data-mult="1">x1</button>
+							<button class="speed-toggle" data-mult="2">x2</button>
 						</div>
+						<span id="speedVal" class="speed-display">1400ms</span>
 					</div>
 
-					<div class="tape-track" id="tapeTrack">
-						<!-- Celdas renderizadas dinámicamente -->
-					</div>
-
-					<div class="tape-footer-info">
-						<p class="tape-rule-text">Memoria estrictamente acotada a la longitud de entrada N + 2 delimitadores.</p>
+					<div class="side-info-card">
+						<span class="side-info-title">Reglas del LBA</span>
+						<p class="side-info-text">El cabezal lee y reescribe sobre la cinta fija sin sobrepasar los delimitadores [ y ].</p>
 					</div>
 				</div>
 			</section>
 		</main>
+
+		<!-- Sección Inferior: Cinta Acotada y Cabezal a Todo lo Ancho -->
+		<section class="bottom-tape-section">
+			<div class="tape-container-box-wide">
+				<div class="tape-header-info">
+					<span class="tape-badge">Cinta Acotada [ LBA ]</span>
+					<span id="headPosInfo" class="head-badge font-mono">Cabezal: Pos 1</span>
+				</div>
+
+				<div class="head-indicator-wrapper">
+					<div id="headPointer" class="head-pointer">
+						<span class="head-label">CABEZAL L/R</span>
+						<div class="head-arrow">▼</div>
+					</div>
+				</div>
+
+				<div class="tape-track-wide-wrapper">
+					<div class="tape-track" id="tapeTrack">
+						<!-- Celdas renderizadas dinámicamente -->
+					</div>
+				</div>
+			</div>
+		</section>
 
 		<!-- Modal de Rechazo -->
 		<div id="modalRechazo" class="modal-backdrop hidden">
@@ -273,12 +283,9 @@ import Layout from '../layouts/Layout.astro';
 		background: #1e293b;
 	}
 
-	/* Barra de Controles */
-	.controls-bar {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		gap: 16px;
-		padding: 14px 24px;
+	/* Barra superior de Input */
+	.top-input-bar {
+		padding: 10px 24px;
 		background: #0f172a;
 		border-bottom: 1px solid #1e293b;
 	}
@@ -348,44 +355,14 @@ import Layout from '../layouts/Layout.astro';
 		border-color: #ef4444;
 	}
 
-	.actions-card {
-		background: #151c2e;
-		border: 1px solid #273452;
-		border-radius: 12px;
-		padding: 8px 16px;
-		display: flex;
-		align-items: center;
-		gap: 12px;
-	}
-
-	.speed-control {
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
-		width: 130px;
-		padding-left: 8px;
-		border-left: 1px solid #273452;
-	}
-
-	.speed-label-row {
-		display: flex;
-		justify-content: space-between;
-		font-size: 0.72rem;
-		color: #94a3b8;
-	}
-
-	.speed-control input[type=range] {
-		accent-color: #3b82f6;
-		cursor: pointer;
-	}
-
-	/* Tablero 3 Columnas */
-	.grid-main {
+	/* Tablero Compacto Superior */
+	.grid-main-compact {
 		display: grid;
-		grid-template-columns: 310px 1fr 310px;
-		gap: 16px;
-		padding: 16px 24px;
+		grid-template-columns: 290px 1fr 240px;
+		gap: 14px;
+		padding: 12px 24px 6px;
 		flex: 1;
+		min-height: 0; /* Permite scroll flexible */
 		overflow: hidden;
 	}
 
@@ -393,37 +370,36 @@ import Layout from '../layouts/Layout.astro';
 		background: #151c2e;
 		border: 1px solid #273452;
 		border-radius: 14px;
-		padding: 16px;
+		padding: 14px;
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
 	}
 
 	.panel-title {
-		font-size: 0.95rem;
+		font-size: 0.92rem;
 		font-weight: 700;
 		color: #f1f5f9;
-		margin-bottom: 12px;
+		margin-bottom: 10px;
 	}
 
 	/* Traza y Estado */
 	.string-display-container {
 		background: #0d1322;
 		border: 1px solid #1e293b;
-		border-radius: 10px;
-		padding: 14px 10px 22px;
-		margin-bottom: 12px;
+		border-radius: 8px;
+		padding: 10px 8px 18px;
+		margin-bottom: 10px;
 		text-align: center;
-		position: relative;
 	}
 
 	.string-display {
-		font-size: 1.4rem;
-		letter-spacing: 0.28em;
+		font-size: 1.25rem;
+		letter-spacing: 0.25em;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		min-height: 38px;
+		min-height: 32px;
 	}
 
 	:global(.char-box) {
@@ -445,24 +421,24 @@ import Layout from '../layouts/Layout.astro';
 		flex: 1;
 		background: #0d1322;
 		border: 1px solid #1e293b;
-		border-radius: 10px;
-		padding: 12px;
+		border-radius: 8px;
+		padding: 10px;
 		overflow-y: auto;
-		margin-bottom: 12px;
+		margin-bottom: 10px;
 	}
 
 	.trace-list {
 		list-style: none;
 		display: flex;
 		flex-direction: column;
-		gap: 6px;
+		gap: 5px;
 	}
 
 	:global(.trace-item) {
-		font-size: 0.78rem;
+		font-size: 0.75rem;
 		color: #94a3b8;
-		padding: 6px 8px;
-		border-radius: 6px;
+		padding: 5px 7px;
+		border-radius: 5px;
 		background: rgba(30, 41, 59, 0.4);
 		border-left: 3px solid transparent;
 		transition: all 0.2s;
@@ -475,12 +451,11 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.status-badge {
-		border-radius: 10px;
-		padding: 12px 14px;
+		border-radius: 8px;
+		padding: 10px 12px;
 		display: flex;
 		flex-direction: column;
 		gap: 2px;
-		transition: all 0.3s ease;
 	}
 
 	.status-badge.idle {
@@ -492,27 +467,24 @@ import Layout from '../layouts/Layout.astro';
 		background: rgba(6, 182, 212, 0.12);
 		border: 1px solid #06b6d4;
 		color: #22d3ee;
-		box-shadow: 0 0 16px rgba(6, 182, 212, 0.25);
 	}
 	.status-badge.accepted {
 		background: rgba(16, 185, 129, 0.15);
 		border: 1.5px solid #10b981;
 		color: #34d399;
-		box-shadow: 0 0 24px rgba(16, 185, 129, 0.45);
 	}
 	.status-badge.rejected {
 		background: rgba(239, 68, 68, 0.15);
 		border: 1.5px solid #ef4444;
 		color: #f87171;
-		box-shadow: 0 0 24px rgba(239, 68, 68, 0.45);
 	}
 
 	.status-title {
-		font-size: 0.88rem;
+		font-size: 0.84rem;
 		font-weight: 700;
 	}
 	.status-subtitle {
-		font-size: 0.75rem;
+		font-size: 0.72rem;
 		opacity: 0.85;
 	}
 
@@ -525,13 +497,12 @@ import Layout from '../layouts/Layout.astro';
 		background: #0d1322;
 		border: 1px solid #1e293b;
 		border-radius: 10px;
-		position: relative;
 	}
 
 	.automaton-svg {
 		width: 100%;
 		height: 100%;
-		max-height: 480px;
+		max-height: 380px;
 	}
 
 	:global(.state-group) {
@@ -543,12 +514,12 @@ import Layout from '../layouts/Layout.astro';
 		stroke: #38bdf8 !important;
 		stroke-width: 3.5px !important;
 		fill: #1e3a5f !important;
-		filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.95));
+		filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.95));
 	}
 
 	:global(.state-group.active-state circle.node-circle-outer) {
 		stroke: #38bdf8 !important;
-		filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.95));
+		filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.95));
 	}
 
 	:global(.actual-indicator.hidden) {
@@ -561,23 +532,122 @@ import Layout from '../layouts/Layout.astro';
 		marker-end: url(#arrow-active) !important;
 	}
 
-	/* Panel Cinta Acotada */
-	.tape-container-box {
-		flex: 1;
+	/* Panel Lateral de Controles de Simulación */
+	.panel-controls-side {
 		display: flex;
 		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.control-side-box {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		height: 100%;
+	}
+
+	.control-side-buttons {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.btn-full {
+		width: 100%;
+		padding: 10px;
+	}
+
+	.speed-control-side {
 		background: #0d1322;
 		border: 1px solid #1e293b;
-		border-radius: 10px;
-		padding: 16px 12px;
-		overflow: hidden;
+		border-radius: 8px;
+		padding: 10px;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.speed-title {
+		font-size: 0.72rem;
+		color: #94a3b8;
+		font-weight: 600;
+	}
+
+	.speed-btn-group {
+		display: flex;
+		gap: 6px;
+	}
+
+	.speed-toggle {
+		flex: 1;
+		background: #1e293b;
+		border: 1px solid #334155;
+		color: #94a3b8;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.75rem;
+		font-weight: 700;
+		padding: 6px 0;
+		border-radius: 6px;
+		cursor: pointer;
+		transition: all 0.18s ease;
+	}
+	.speed-toggle:hover {
+		color: #f8fafc;
+		border-color: #475569;
+	}
+	.speed-toggle.active {
+		background: #2563eb;
+		color: #ffffff;
+		border-color: #38bdf8;
+		box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+	}
+
+	.speed-display {
+		font-size: 0.7rem;
+		color: #64748b;
+		font-family: 'JetBrains Mono', monospace;
+		text-align: right;
+	}
+
+	.side-info-card {
+		background: #0d1322;
+		border: 1px solid #1e293b;
+		border-radius: 8px;
+		padding: 10px;
+	}
+
+	.side-info-title {
+		font-size: 0.72rem;
+		font-weight: 700;
+		color: #38bdf8;
+		text-transform: uppercase;
+		display: block;
+		margin-bottom: 4px;
+	}
+
+	.side-info-text {
+		font-size: 0.75rem;
+		color: #94a3b8;
+		line-height: 1.4;
+	}
+
+	/* Sección Inferior: Cinta Acotada a Todo lo Ancho */
+	.bottom-tape-section {
+		padding: 6px 24px 14px;
+	}
+
+	.tape-container-box-wide {
+		background: #151c2e;
+		border: 1px solid #273452;
+		border-radius: 12px;
+		padding: 12px 18px;
 	}
 
 	.tape-header-info {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 24px;
+		margin-bottom: 8px;
 	}
 
 	.tape-badge {
@@ -599,8 +669,8 @@ import Layout from '../layouts/Layout.astro';
 
 	.head-indicator-wrapper {
 		position: relative;
-		height: 40px;
-		margin-bottom: 6px;
+		height: 32px;
+		margin-bottom: 4px;
 	}
 
 	.head-pointer {
@@ -614,7 +684,7 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.head-label {
-		font-size: 0.65rem;
+		font-size: 0.62rem;
 		font-weight: 800;
 		color: #38bdf8;
 		background: #0369a1;
@@ -625,25 +695,29 @@ import Layout from '../layouts/Layout.astro';
 
 	.head-arrow {
 		color: #38bdf8;
-		font-size: 1rem;
+		font-size: 0.9rem;
 		margin-top: -2px;
 	}
 
-	.tape-track {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 6px;
-		padding: 12px 6px;
-		background: #111827;
-		border: 2px solid #334155;
-		border-radius: 10px;
+	.tape-track-wide-wrapper {
+		width: 100%;
 		overflow-x: auto;
-		margin-bottom: 20px;
+		background: #0d1322;
+		border: 1.5px solid #334155;
+		border-radius: 8px;
+		padding: 10px 14px;
+	}
+
+	.tape-track {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		min-width: 100%;
+		justify-content: center;
 	}
 
 	:global(.tape-cell) {
-		min-width: 36px;
+		min-width: 40px;
 		height: 44px;
 		background: #1e293b;
 		border: 1.5px solid #475569;
@@ -652,7 +726,7 @@ import Layout from '../layouts/Layout.astro';
 		align-items: center;
 		justify-content: center;
 		font-family: 'JetBrains Mono', monospace;
-		font-size: 1.1rem;
+		font-size: 1.15rem;
 		font-weight: 800;
 		color: #f8fafc;
 		transition: all 0.2s;
@@ -668,20 +742,7 @@ import Layout from '../layouts/Layout.astro';
 		border-color: #38bdf8;
 		background: #1e3a5f;
 		color: #38bdf8;
-		box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
-	}
-
-	.tape-footer-info {
-		margin-top: auto;
-		background: #131b2e;
-		padding: 10px;
-		border-radius: 8px;
-	}
-
-	.tape-rule-text {
-		font-size: 0.75rem;
-		color: #94a3b8;
-		line-height: 1.4;
+		box-shadow: 0 0 14px rgba(56, 189, 248, 0.7);
 	}
 
 	/* Modal de Rechazo */
@@ -771,14 +832,14 @@ import Layout from '../layouts/Layout.astro';
 	let currentStepIdx = 0;
 	let timer: any = null;
 	let isPaused = false;
-	let speedMs = 600;
+	const BASE_SPEED = 1400;
+	let speedMs = 1400;
 
 	const cadenaInput = document.getElementById('cadenaInput') as HTMLInputElement;
 	const btnIniciar = document.getElementById('btnIniciar');
 	const btnAnterior = document.getElementById('btnAnterior') as HTMLButtonElement;
 	const btnPausa = document.getElementById('btnPausa') as HTMLButtonElement;
 	const btnSiguiente = document.getElementById('btnSiguiente') as HTMLButtonElement;
-	const speedSlider = document.getElementById('speedSlider') as HTMLInputElement;
 	const speedVal = document.getElementById('speedVal');
 
 	const stringDisplay = document.getElementById('stringDisplay');
@@ -802,14 +863,20 @@ import Layout from '../layouts/Layout.astro';
 		});
 	});
 
-	// Velocidad
-	speedSlider?.addEventListener('input', () => {
-		speedMs = parseInt(speedSlider.value, 10);
-		if (speedVal) speedVal.textContent = `${speedMs}ms`;
-		if (timer && !isPaused) {
-			clearInterval(timer);
-			timer = setInterval(avanzarPasoAutomatico, speedMs);
-		}
+	// Velocidad: solo x0.5, x1, x2
+	document.querySelectorAll('.speed-toggle').forEach(btn => {
+		btn.addEventListener('click', () => {
+			document.querySelectorAll('.speed-toggle').forEach(b => b.classList.remove('active'));
+			btn.classList.add('active');
+			const mult = parseFloat(btn.getAttribute('data-mult') || '1');
+			speedMs = Math.round(BASE_SPEED / mult);
+			if (speedVal) speedVal.textContent = `${speedMs}ms`;
+
+			if (timer && !isPaused) {
+				clearInterval(timer);
+				timer = setInterval(avanzarPasoAutomatico, speedMs);
+			}
+		});
 	});
 
 	btnIniciar?.addEventListener('click', iniciarSimulacion);
@@ -886,13 +953,15 @@ import Layout from '../layouts/Layout.astro';
 			return `<div class="tape-cell ${isBoundary ? 'boundary' : ''} ${isActive ? 'active-head' : ''}" id="cell_${idx}">${simbolo}</div>`;
 		}).join('');
 
-		// Posicionar la flecha del cabezal sobre la celda activa
 		const activeCell = document.getElementById(`cell_${cabezalPos}`);
 		if (activeCell && headPointer) {
 			const cellRect = activeCell.getBoundingClientRect();
-			const trackRect = tapeTrack.getBoundingClientRect();
-			const offsetLeft = (cellRect.left - trackRect.left) + (cellRect.width / 2);
-			headPointer.style.left = `${offsetLeft}px`;
+			const trackWrapper = tapeTrack.parentElement;
+			if (trackWrapper) {
+				const trackRect = trackWrapper.getBoundingClientRect();
+				const offsetLeft = (cellRect.left - trackRect.left) + (cellRect.width / 2);
+				headPointer.style.left = `${offsetLeft}px`;
+			}
 		}
 
 		if (headPosInfo) {
