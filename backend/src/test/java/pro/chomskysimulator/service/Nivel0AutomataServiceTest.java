@@ -30,13 +30,23 @@ class Nivel0AutomataServiceTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", "ab", "abcc", "aabbcc", "abcba", "abbccc", "a"})
+    @ValueSource(strings = {"", "ab", "abcc", "aabbcc", "abcba", "abbccc", "a", "b", "bb", "abcb", "aabcbc"})
     @DisplayName("Debe rechazar cadenas que no cumplan el producto a^n b^m c^(n*m)")
     void debeRechazarCadenasInvalidas(String cadena) {
         SimulationResult resultado = service.simular(cadena);
 
         assertFalse(resultado.accepted(), "La cadena \"" + cadena + "\" debería ser rechazada.");
         assertNotEquals("q_accept", resultado.finalState());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Y", "bZ", "aYY", "abcX", "abcB"})
+    @DisplayName("Debe rechazar cadenas con símbolos fuera del alfabeto de entrada {a, b, c}")
+    void debeRechazarSimbolosFueraDelAlfabeto(String cadena) {
+        SimulationResult resultado = service.simular(cadena);
+
+        assertFalse(resultado.accepted(), "La cadena \"" + cadena + "\" debería ser rechazada.");
+        assertEquals("garbageCollector", resultado.finalState());
     }
 
     @Test

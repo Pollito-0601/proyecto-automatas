@@ -39,6 +39,16 @@ class Nivel1AutomataServiceTest {
         assertNotEquals("q_accept", resultado.finalState());
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"Y", "YZ", "Y]", "abcX", "[abc]"})
+    @DisplayName("Debe rechazar cadenas con símbolos fuera del alfabeto de entrada {a, b, c}")
+    void debeRechazarSimbolosFueraDelAlfabeto(String cadena) {
+        SimulationResult resultado = service.simular(cadena);
+
+        assertFalse(resultado.accepted(), "La cadena \"" + cadena + "\" debería ser rechazada.");
+        assertEquals("garbageCollector", resultado.finalState());
+    }
+
     @Test
     @DisplayName("Debe verificar que la cinta contenga los delimitadores de frontera [ y ]")
     void debeContenerDelimitadoresDeFrontera() {
