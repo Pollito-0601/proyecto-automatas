@@ -1,0 +1,138 @@
+---
+interface Props {
+	title: string;
+	subtitle?: string;
+	currentRoute?: string;
+}
+
+const { title, subtitle, currentRoute } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Simulador Interactivo de la Jerarquía de Chomsky" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{title}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--bg-main: #0c111d;
+		--bg-surface: #151c2e;
+		--bg-card: #1a2238;
+		--bg-card-alt: #131a2b;
+		--border-color: #273452;
+		--border-highlight: #3b82f6;
+		--text-primary: #f1f5f9;
+		--text-secondary: #94a3b8;
+		--text-muted: #64748b;
+		--accent-blue: #3b82f6;
+		--accent-blue-hover: #2563eb;
+		--accent-cyan: #38bdf8;
+		--accent-green: #10b981;
+		--accent-red: #ef4444;
+	}
+
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	body {
+		font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+		background-color: var(--bg-main);
+		color: var(--text-primary);
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		overflow-x: hidden;
+	}
+
+	code, pre, .font-mono {
+		font-family: 'JetBrains Mono', monospace;
+	}
+
+	/* Scrollbars estilizadas */
+	::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+	::-webkit-scrollbar-track {
+		background: var(--bg-main);
+	}
+	::-webkit-scrollbar-thumb {
+		background: #273452;
+		border-radius: 4px;
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: #3b82f6;
+	}
+
+	/* Animaciones y utilidades de brillo */
+	@keyframes pulseGlow {
+		0%, 100% {
+			filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.65));
+		}
+		50% {
+			filter: drop-shadow(0 0 24px rgba(56, 189, 248, 0.95));
+		}
+	}
+
+	.glow-cyan {
+		animation: pulseGlow 2.2s infinite ease-in-out;
+	}
+
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+		font-family: inherit;
+		font-weight: 600;
+		font-size: 0.88rem;
+		border-radius: 8px;
+		padding: 8px 16px;
+		border: 1px solid transparent;
+		cursor: pointer;
+		transition: all 0.18s ease;
+		text-decoration: none;
+		user-select: none;
+	}
+
+	.btn-primary {
+		background: #2563eb;
+		color: #ffffff;
+		border-color: #3b82f6;
+		box-shadow: 0 0 16px rgba(37, 99, 235, 0.35);
+	}
+	.btn-primary:hover {
+		background: #1d4ed8;
+		box-shadow: 0 0 22px rgba(37, 99, 235, 0.55);
+	}
+
+	.btn-secondary {
+		background: #1e293b;
+		color: #e2e8f0;
+		border-color: #334155;
+	}
+	.btn-secondary:hover {
+		background: #273549;
+		border-color: #475569;
+		color: #ffffff;
+	}
+
+	.btn-secondary:disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
+</style>

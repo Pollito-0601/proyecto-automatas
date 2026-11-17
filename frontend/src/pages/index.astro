@@ -1,0 +1,269 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Simulador de la Jerarquía de Chomsky">
+	<main class="home-container">
+		<header class="home-header">
+			<div class="badge-tag">TEORÍA DE AUTÓMATAS Y LENGUAJES FORMALES</div>
+			<h1 class="main-title">Simulador Interactivo de la Jerarquía de Chomsky</h1>
+			<p class="main-subtitle">
+				Explora, simula y visualiza el comportamiento dinámico de los cuatro modelos computacionales representativos de la jerarquía.
+			</p>
+		</header>
+
+		<div class="levels-grid">
+			<!-- Nivel 3 -->
+			<div class="level-card level-3">
+				<div class="level-card-header">
+					<span class="level-pill pill-3">Tipo 3 • Regular</span>
+					<span class="model-name">Autómata Finito (AFD)</span>
+				</div>
+				<h2 class="level-title">Reconocedor de Cadenas Regulares</h2>
+				<p class="level-desc">
+					Evalúa cadenas símbolo a símbolo sin requerir memoria auxiliar, transitando únicamente entre estados internos.
+				</p>
+				<div class="formula-box">
+					<span class="formula-label">Lenguaje formal:</span>
+					<code>L = {"{"} a<sup>n</sup> b<sup>m</sup> | n, m ≥ 1 {"}"}</code>
+				</div>
+				<ul class="features-list">
+					<li>✓ Visualización de nodos y estado activo en tiempo real</li>
+					<li>✓ Flecha inicial y doble círculo de aceptación</li>
+					<li>✓ Trazabilidad paso a paso de transiciones</li>
+				</ul>
+				<a href="/tipo3-afd" class="btn btn-primary enter-btn">
+					Simular Nivel 3 (AFD)
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+				</a>
+			</div>
+
+			<!-- Nivel 2 -->
+			<div class="level-card level-2">
+				<div class="level-card-header">
+					<span class="level-pill pill-2">Tipo 2 • Libre de Contexto</span>
+					<span class="model-name">Autómata con Pila (PDA)</span>
+				</div>
+				<h2 class="level-title">Memoria Auxiliar Tipo LIFO</h2>
+				<p class="level-desc">
+					Requiere una pila de memoria para balancear la cantidad exacta de símbolos 'a' y 'b' consumidos en la cadena.
+				</p>
+				<div class="formula-box">
+					<span class="formula-label">Lenguaje formal:</span>
+					<code>L = {"{"} a<sup>n</sup> b<sup>n</sup> | n ≥ 1 {"}"}</code>
+				</div>
+				<ul class="features-list">
+					<li>✓ Contenedor vertical animado de la Pila (Stack)</li>
+					<li>✓ Operaciones Push y Pop reflejadas en vivo</li>
+					<li>✓ Verificación de pila balanceada al finalizar</li>
+				</ul>
+				<a href="/tipo2-pda" class="btn btn-primary enter-btn">
+					Simular Nivel 2 (PDA)
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+				</a>
+			</div>
+
+			<!-- Nivel 1 -->
+			<div class="level-card level-1">
+				<div class="level-card-header">
+					<span class="level-pill pill-1">Tipo 1 • Sensible al Contexto</span>
+					<span class="model-name">Autómata Linealmente Acotado</span>
+				</div>
+				<h2 class="level-title">Cinta Acotada a la Entrada (LBA)</h2>
+				<p class="level-desc">
+					Memoria restringida a la longitud de la cadena con delimitadores [ y ], y cabezal de lectura/escritura bidireccional.
+				</p>
+				<div class="formula-box">
+					<span class="formula-label">Lenguaje formal:</span>
+					<code>L = {"{"} a<sup>n</sup> b<sup>n</sup> c<sup>n</sup> | n ≥ 1 {"}"}</code>
+				</div>
+				<ul class="features-list">
+					<li>✓ Cinta acotada con marcadores de frontera [ y ]</li>
+					<li>✓ Cabezal móvil bidireccional y marcas X, Y, Z</li>
+					<li>✓ Verificación de triple balance de símbolos</li>
+				</ul>
+				<a href="/tipo1-lba" class="btn btn-primary enter-btn">
+					Simular Nivel 1 (LBA)
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+				</a>
+			</div>
+
+			<!-- Nivel 0 -->
+			<div class="level-card level-0">
+				<div class="level-card-header">
+					<span class="level-pill pill-0">Tipo 0 • Recursivamente Enumerable</span>
+					<span class="model-name">Máquina de Turing (MT)</span>
+				</div>
+				<h2 class="level-title">Cinta Dinámica y Cómputo Universal</h2>
+				<p class="level-desc">
+					Cinta extendible con símbolos blancos (B), cabezal de lectura/escritura arbitrario y función de producto aritmético.
+				</p>
+				<div class="formula-box">
+					<span class="formula-label">Lenguaje formal:</span>
+					<code>L = {"{"} a<sup>n</sup> b<sup>m</sup> c<sup>n×m</sup> | n, m ≥ 1 {"}"}</code>
+				</div>
+				<ul class="features-list">
+					<li>✓ Cinta extendible con alfabeto de cinta y blancos B</li>
+					<li>✓ Cabezal de lectura/escritura con desplazamiento L/R</li>
+					<li>✓ Verificación de multiplicación formal</li>
+				</ul>
+				<a href="/tipo0-mt" class="btn btn-primary enter-btn">
+					Simular Nivel 0 (MT)
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+				</a>
+			</div>
+		</div>
+	</main>
+</Layout>
+
+<style>
+	.home-container {
+		max-width: 1280px;
+		margin: 0 auto;
+		padding: 48px 24px 64px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.home-header {
+		text-align: center;
+		max-width: 780px;
+		margin-bottom: 48px;
+	}
+
+	.badge-tag {
+		display: inline-block;
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		color: #38bdf8;
+		background: rgba(56, 189, 248, 0.12);
+		border: 1px solid rgba(56, 189, 248, 0.3);
+		padding: 4px 12px;
+		border-radius: 999px;
+		margin-bottom: 16px;
+	}
+
+	.main-title {
+		font-size: 2.5rem;
+		font-weight: 800;
+		line-height: 1.2;
+		color: #ffffff;
+		margin-bottom: 16px;
+		letter-spacing: -0.02em;
+	}
+
+	.main-subtitle {
+		font-size: 1.1rem;
+		color: #94a3b8;
+		line-height: 1.6;
+	}
+
+	.levels-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 24px;
+		width: 100%;
+	}
+
+	.level-card {
+		background: #151c2e;
+		border: 1px solid #273452;
+		border-radius: 16px;
+		padding: 24px;
+		display: flex;
+		flex-direction: column;
+		transition: all 0.25s ease;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.level-card:hover {
+		transform: translateY(-4px);
+		border-color: #3b82f6;
+		box-shadow: 0 12px 30px rgba(15, 23, 42, 0.6);
+	}
+
+	.level-card-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 16px;
+	}
+
+	.level-pill {
+		font-size: 0.75rem;
+		font-weight: 700;
+		padding: 3px 10px;
+		border-radius: 6px;
+	}
+
+	.pill-3 { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+	.pill-2 { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+	.pill-1 { background: rgba(234, 179, 8, 0.15); color: #facc15; }
+	.pill-0 { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+	.model-name {
+		font-size: 0.8rem;
+		color: #64748b;
+		font-weight: 600;
+	}
+
+	.level-title {
+		font-size: 1.35rem;
+		font-weight: 700;
+		color: #f8fafc;
+		margin-bottom: 8px;
+	}
+
+	.level-desc {
+		font-size: 0.9rem;
+		color: #94a3b8;
+		line-height: 1.5;
+		margin-bottom: 16px;
+		flex-grow: 1;
+	}
+
+	.formula-box {
+		background: #0d1322;
+		border: 1px solid #1e293b;
+		border-radius: 8px;
+		padding: 10px 14px;
+		margin-bottom: 16px;
+	}
+
+	.formula-label {
+		display: block;
+		font-size: 0.72rem;
+		color: #64748b;
+		text-transform: uppercase;
+		font-weight: 600;
+		margin-bottom: 4px;
+	}
+
+	.formula-box code {
+		color: #38bdf8;
+		font-size: 0.95rem;
+		font-weight: 600;
+	}
+
+	.features-list {
+		list-style: none;
+		margin-bottom: 24px;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.features-list li {
+		font-size: 0.82rem;
+		color: #cbd5e1;
+	}
+
+	.enter-btn {
+		width: 100%;
+		padding: 12px 18px;
+		font-size: 0.95rem;
+	}
+</style>
